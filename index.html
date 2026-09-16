@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pflege Trainer</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #2563eb;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    margin: 8px 0 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:disabled {
+    cursor: default;
+    opacity: 1;
+}
+
+.back {
+    background: #64748b;
+}
+
+.topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.topic-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.topic-card:hover {
+    transform: translateY(-3px);
+}
+
+.topic-card h2 {
+    margin-top: 0;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.menu button {
+    min-height: 70px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin-top: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.learn-item {
+    border-left: 5px solid #2563eb;
+    padding: 12px 18px;
+    margin: 15px 0;
+    background: #f8fafc;
+}
+
+.flashcard {
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.question {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.answer {
+    font-size: 19px;
+    color: #166534;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #e2e8f0;
+    color: #111827;
+    margin: 10px 0;
+}
+
+.correct {
+    background: #bbf7d0 !important;
+}
+
+.wrong {
+    background: #fecaca !important;
+}
+
+.small {
+    color: #64748b;
+    font-size: 14px;
+}
+
+ul {
+    line-height: 1.8;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🩺 Pflege Trainer</h1>
+    <p>Dein persönlicher Trainer für die Pflegeausbildung</p>
+</header>
+
+<div class="container">
+
+<!-- ==================== STARTSEITE ==================== -->
+
+<section id="home">
+
+    <h2>📚 Themen</h2>
+
+    <div class="topic-grid">
+
+        <div class="topic-card" onclick="openTopic('puls')">
+            <h2>💓 Puls</h2>
+            <p>Frequenz, Rhythmus, Qualität, Tachykardie, Bradykardie</p>
+        </div>
+
+        <div class="topic-card" onclick="openTopic('vital')">
+            <h2>🌡️ Vitalzeichen</h2>
+            <p>Grundlagen der Vitalzeichen</p>
+            <p class="small">Schulstoff wird ergänzt</p>
+        </div>
+
+        <div class="topic-card" onclick="openTopic('blutdruck')">
+            <h2>🩸 Blutdruck</h2>
+            <p>Systole, Diastole, Windkesselfunktion, MAD</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================== THEMENMENÜ ==================== -->
+
+<section id="topicMenu" class="hidden">
+
+    <button class="back" onclick="goHome()">← Zurück</button>
+
+    <div class="card">
+
+        <h2 id="topicTitle"></h2>
+
+        <div class="menu">
+
+            <button onclick="showLearn()">
+                📖 Lernen
+            </button>
+
+            <button onclick="showFlashcards()">
+                📚 Lernkarten
+            </button>
+
+            <button onclick="startQuiz()">
+                🧠 Üben
+            </button>
+
+            <button onclick="showComingSoon()">
+                🎯 Prüfung
+            </button>
+
+            <button onclick="showComingSoon()">
+                ❌ Fehler wiederholen
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================== LERNEN ==================== -->
+
+<section id="learnPage" class="hidden">
+
+    <button class="back" onclick="backToTopic()">
+        ← Zurück
+    </button>
+
+    <div class="card">
+
+        <h2 id="learnTitle"></h2>
+
+        <div id="learnContent"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================== LERNKARTEN ==================== -->
+
+<section id="flashcardPage" class="hidden">
+
+    <button class="back" onclick="backToTopic()">
+        ← Zurück
+    </button>
+
+    <div class="card flashcard">
+
+        <div id="flashQuestion" class="question"></div>
+
+        <div id="flashAnswer" class="answer hidden"></div>
+
+        <button onclick="showFlashAnswer()">
+            Antwort zeigen
+        </button>
+
+        <button onclick="nextFlashcard()">
+            Nächste Karte →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ==================== QUIZ ==================== -->
+
+<section id="quizPage" class="hidden">
+
+    <button class="back" onclick="backToTopic()">
+        ← Zurück
+    </button>
+
+    <div class="card">
+
+        <div id="quizProgress" class="small"></div>
+
+        <div id="quizQuestion" class="question"></div>
+
+        <div id="quizOptions"></div>
+
+        <div id="quizFeedback"></div>
+
+        <button
+            id="nextQuestionButton"
+            class="hidden"
+            onclick="nextQuestion()">
+
+            Nächste Frage →
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ==================== COMING SOON ==================== -->
+
+<section id="comingSoon" class="hidden">
+
+    <button class="back" onclick="backToTopic()">
+        ← Zurück
+    </button>
+
+    <div class="card">
+
+        <h2>🚧 Wird noch erweitert</h2>
+
+        <p>
+            Dieser Bereich wird später mit den echten
+            Schulfragen und Antworten ergänzt.
+        </p>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   THEMEN UND LERNINHALTE
+========================================================= */
+
+const topics = {
+
+    /* =====================================================
+       PULS
+    ===================================================== */
+
+    puls: {
+
+        title: "💓 Puls",
+
+        learn: [
+
+            {
+                title: "Wann wird der Puls gemessen?",
+
+                text: `
+                <ul>
+                    <li>Bei der Aufnahme jedes Patienten</li>
+                    <li>Als Teil der standardmäßigen Datenerhebung</li>
+                    <li>Wenn andere Parameter, z. B. der Blutdruck, auffällig sind</li>
+                    <li>Wenn sich der Allgemeinzustand verschlechtert</li>
+                    <li>In Notfallsituationen, z. B. Schock</li>
+                </ul>
+                `
+            },
+
+            {
+                title: "Puls beurteilen",
+
+                text: `
+                <p>
+                Der Puls wird hinsichtlich
+                <b>Frequenz, Rhythmus und Qualität</b>
+                beurteilt.
+                </p>
+
+                <p>
+                Nicht jede Abweichung ist krankhaft.
+                </p>
+
+                <p>
+                Die Pflegefachkraft sollte die Messergebnisse
+                immer im Zusammenhang mit dem Gesamteindruck
+                und dem Befinden des Patienten sehen.
+                </p>
+
+                <p>
+                Auch der Vergleich mit bereits gemessenen Werten
+                hilft bei der Einordnung der Ergebnisse.
+                </p>
+
+                <p>
+                Bei Auffälligkeiten sollten zusätzlich
+                <b>Blutdruck, Atemfrequenz, Temperatur</b>
+                und eventuell die
+                <b>Sauerstoffsättigung</b>
+                gemessen werden.
+                </p>
+                `
+            },
+
+            {
+                title: "Puls messen – Messorte",
+
+                text: `
+                <p>
+                Der häufigste Messort ist:
+                </p>
+
+                <h3>A. radialis</h3>
+
+                <p>
+                Weitere mögliche Messorte:
+                </p>
+
+                <ul>
+                    <li>A. carotis</li>
+                    <li>A. femoralis</li>
+                </ul>
+                `
+            },
+
+            {
+                title: "Puls messen – Zählen",
+
+                text: `
+                <p>
+                Zunächst wird der <b>Rhythmus</b> beurteilt.
+                </p>
+
+                <ul>
+                    <li>
+                    Regelmäßiger Puls:
+                    <b>15 Sekunden zählen × 4</b>
+                    </li>
+
+                    <li>
+                    Unregelmäßiger Puls:
+                    <b>1 Minute auszählen</b>
+                    </li>
+                </ul>
+                `
+            },
+
+            {
+                title: "Pulsqualität – Spannung / Härte",
+
+                text: `
+                <p>
+                Die Spannung bzw. Härte wird durch die Höhe
+                des mittleren arteriellen Drucks bestimmt.
+                </p>
+
+                <p>
+                Sie erlaubt eine grobe Einschätzung
+                des systolischen Blutdrucks.
+                </p>
+
+                <ul>
+                    <li><b>Hart:</b> bei Hypertonie</li>
+                    <li><b>Weich:</b> bei Hypotonie, z. B. im Schock</li>
+                </ul>
+                `
+            },
+
+            {
+                title: "Pulsqualität – Füllung / Größe",
+
+                text: `
+                <p>
+                Die Füllung bzw. Größe hängt von Blutmenge,
+                Kontraktionskraft des Herzens und Gefäßelastizität ab.
+                </p>
+
+                <ul>
+                    <li>
+                    <b>Kleiner Puls:</b>
+                    schlecht gefüllt, z. B. bei Blutverlust
+                    </li>
+
+                    <li>
+                    <b>Großer Puls:</b>
+                    gut gefüllt, z. B. bei Hypertonie
+                    </li>
+
+                    <li>
+                    <b>Fadenförmiger Puls:</b>
+                    klein, schnell und schlecht messbar
+                    </li>
+                </ul>
+                `
+            },
+
+            {
+                title: "Tachykardie",
+
+                text: `
+                <p>
+                Physiologisch steigt die Herzfrequenz bei
+                körperlicher Anstrengung, unter Schmerzen und
+                durch psychische Faktoren wie Angst oder Schreck.
+                </p>
+
+                <p>
+                Pathophysiologische Ursachen können sein:
+                </p>
+
+                <ul>
+                    <li>Fieber</li>
+                    <li>Verminderte Herzpumpleistung</li>
+                    <li>Flüssigkeitsmangel</li>
+                    <li>Schilddrüsenüberfunktion</li>
+                    <li>Kaliummangel</li>
+                    <li>Herzinfarkt</li>
+                </ul>
+
+                <p>
+                Auch Medikamente, z. B. Bronchodilatatoren
+                oder Wehenhemmer, können eine Tachykardie auslösen.
+                </p>
+                `
+            },
+
+            {
+                title: "Bradykardie",
+
+                text: `
+                <p>
+                Eine Bradykardie liegt bei einer Herzfrequenz
+                von <b>unter 60/min</b> vor.
+                </p>
+
+                <p>
+                Bei älteren Menschen oder Leistungssportlern
+                kann sie physiologisch sein.
+                </p>
+
+                <p>
+                Pathologische Ursachen können sein:
+                </p>
+
+                <ul>
+                    <li>Medikamentenüberdosierung</li>
+                    <li>Vergiftungen</li>
+                    <li>Störungen der Erregungsbildung bzw. -überleitung</li>
+                    <li>z. B. nach Herzinfarkt</li>
+                    <li>Hyperkaliämie</li>
+                    <li>Erhöhter Hirndruck</li>
+                </ul>
+
+                <p>
+                Medikamente wie <b>Betablocker</b> und
+                <b>Digitalispräparate</b> können die Herzfrequenz senken.
+                </p>
+                `
+            },
+
+            {
+                title: "Physiologische Pulsfrequenzen",
+
+                text: `
+                <table>
+
+                    <tr>
+                        <th>Alter</th>
+                        <th>Schläge pro Minute</th>
+                    </tr>
+
+                    <tr>
+                        <td>Frühgeborene</td>
+                        <td>140–160</td>
+                    </tr>
+
+                    <tr>
+                        <td>Neugeborene (0–4 Wochen)</td>
+                        <td>120–140</td>
+                    </tr>
+
+                    <tr>
+                        <td>Säuglinge (&lt; 1 Jahr)</td>
+                        <td>110–130</td>
+                    </tr>
+
+                    <tr>
+                        <td>Kleinkinder (1–6 Jahre)</td>
+                        <td>100–120</td>
+                    </tr>
+
+                    <tr>
+                        <td>Schulkinder (7–12 Jahre)</td>
+                        <td>80–110</td>
+                    </tr>
+
+                    <tr>
+                        <td>Jugendliche (13–18 Jahre)</td>
+                        <td>60–80</td>
+                    </tr>
+
+                    <tr>
+                        <td>Erwachsene (19–64 Jahre)</td>
+                        <td>60–80</td>
+                    </tr>
+
+                    <tr>
+                        <td>Ältere Menschen (&gt;64 Jahre)</td>
+                        <td>80–90</td>
+                    </tr>
+
+                </table>
+                `
+            }
+
+        ],
+
+        quiz: [
+
+            {
+                question: "Welche drei Kriterien werden beim Puls beurteilt?",
+
+                options: [
+                    "Frequenz, Rhythmus und Qualität",
+                    "Temperatur, Blutdruck und Atmung",
+                    "Gewicht, Größe und Temperatur",
+                    "Sauerstoff, Temperatur und Blutdruck"
+                ],
+
+                correct: 0
+            },
+
+            {
+                question: "Wo wird der Puls am häufigsten gemessen?",
+
+                options: [
+                    "A. radialis",
+                    "A. pulmonalis",
+                    "A. renalis",
+                    "A. brachialis"
+                ],
+
+                correct: 0
+            },
+
+            {
+                question: "Wie wird ein regelmäßiger Puls gezählt?",
+
+                options: [
+                    "5 Sekunden",
+                    "10 Sekunden",
+                    "15 Sekunden × 4",
+                    "60 Sekunden × 4"
+                ],
+
+                correct: 2
+            },
+
+            {
+                question: "Wie lange wird ein unregelmäßiger Puls gezählt?",
+
+                options: [
+                    "10 Sekunden",
+                    "15 Sekunden",
+                    "30 Sekunden",
+                    "1 Minute"
+                ],
+
+                correct: 3
+            },
+
+            {
+                question: "Was bedeutet Bradykardie?",
+
+                options: [
+                    "Herzfrequenz über 100/min",
+                    "Herzfrequenz unter 60/min",
+                    "Unregelmäßiger Blutdruck",
+                    "Erhöhte Temperatur"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "Welche Situation kann eine Tachykardie physiologisch auslösen?",
+
+                options: [
+                    "Schlaf",
+                    "Körperliche Anstrengung",
+                    "Ruhe",
+                    "Nahrungsaufnahme"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "Welches Medikament kann die Herzfrequenz senken?",
+
+                options: [
+                    "Betablocker",
+                    "Bronchodilatator",
+                    "Wehenhemmer",
+                    "Vitamin C"
+                ],
+
+                correct: 0
+            }
+
+        ]
+
+    },
+
+
+    /* =====================================================
+       VITALZEICHEN
+    ===================================================== */
+
+    vital: {
+
+        title: "🌡️ Vitalzeichen",
+
+        learn: [
+
+            {
+                title: "Grundlagen",
+
+                text: `
+                <p>
+                Dieser Bereich ist vorbereitet.
+                </p>
+
+                <p>
+                Die genauen Schulfragen und Antworten werden
+                nach dem Gespräch mit dem Lehrer ergänzt.
+                </p>
+                `
+            }
+
+        ],
+
+        quiz: []
+
+    },
+
+
+    /* =====================================================
+       BLUTDRUCK
+    ===================================================== */
+
+    blutdruck: {
+
+        title: "🩸 Blutdruck",
+
+        learn: [
+
+            {
+                title: "Systolischer Blutdruck",
+
+                text: `
+                <p>
+                Der systolische arterielle Blutdruck ist der
+                <b>obere arterielle Blutdruckwert</b>.
+                </p>
+
+                <p>
+                Er ist der Druck in den großen Arterien während
+                der <b>Systole (Auswurfphase)</b> des Herzens.
+                </p>
+
+                <p>
+                Er entspricht etwa dem systolischen Druck
+                in der linken Herzkammer.
+                </p>
+                `
+            },
+
+            {
+                title: "Diastolischer Blutdruck",
+
+                text: `
+                <p>
+                Der diastolische arterielle Blutdruck ist der
+                <b>untere arterielle Blutdruckwert</b>.
+                </p>
+
+                <p>
+                Er ist der Druck in den großen Arterien während
+                der <b>Diastole (Erschlaffungsphase)</b> des Herzens.
+                </p>
+                `
+            },
+
+            {
+                title: "Windkesselfunktion",
+
+                text: `
+                <p>
+                Die elastische Eigenschaft der Aorta und der großen
+                Arterien ermöglicht die Windkesselfunktion.
+                </p>
+
+                <p>
+                Während der Systole dehnt sich die Aorta aus
+                und nimmt Blut auf.
+                </p>
+
+                <p>
+                Während der Diastole zieht sie sich wieder zusammen.
+                Dadurch wird der Blutfluss auch während der Diastole
+                aufrechterhalten.
+                </p>
+                `
+            },
+
+            {
+                title: "Einheit des Blutdrucks",
+
+                text: `
+                <h2>mmHg</h2>
+
+                <p>
+                Millimeter Quecksilbersäule
+                </p>
+                `
+            },
+
+            {
+                title: "Blutdruckamplitude",
+
+                text: `
+                <p>
+                Die Blutdruckamplitude bzw. der Pulsdruck ist die
+                <b>Differenz zwischen systolischem und diastolischem Blutdruckwert</b>.
+                </p>
+                `
+            },
+
+            {
+                title: "Mittlerer arterieller Druck",
+
+                text: `
+                <p>
+                Der mittlere arterielle Druck (MAD) ist der
+                durchschnittliche Druck, der in den Arterien herrscht.
+                </p>
+
+                <p>
+                Zusammen mit dem Pulsdruck ist er eine wichtige
+                Größe für den arteriellen Blutfluss.
+                </p>
+
+                <p>
+                Üblicherweise wird der MAD vor allem auf
+                Intensivstationen ermittelt und beurteilt.
+                </p>
+                `
+            },
+
+            {
+                title: "⚠️ Wo sollte kein Blutdruck gemessen werden?",
+
+                text: `
+                <p>
+                Bei bestimmten Situationen soll der betroffene Arm
+                für die Blutdruckmessung vermieden bzw. besonders
+                beachtet werden.
+                </p>
+
+                <ul>
+                    <li><b>laufender i.v.-Zugang / Infusion</b></li>
+                    <li><b>Dialyse-Shunt</b></li>
+                    <li><b>Gefäßzugang</b></li>
+                    <li><b>Lymphödem</b></li>
+                    <li><b>betroffene Seite nach Mammaoperation</b></li>
+                    <li><b>Plegie / Parese</b></li>
+                </ul>
+
+                <p>
+                In der Praxis muss zusätzlich die konkrete Situation
+                des Patienten und die örtliche pflegerische
+                bzw. ärztliche Vorgabe berücksichtigt werden.
+                </p>
+                `
+            }
+
+        ],
+
+        quiz: [
+
+            {
+                question: "Was ist der systolische Blutdruck?",
+
+                options: [
+                    "Der untere Blutdruckwert",
+                    "Der Druck während der Systole",
+                    "Der Druck während der Diastole",
+                    "Der Druck in den Venen"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "Was ist der diastolische Blutdruck?",
+
+                options: [
+                    "Der obere Blutdruckwert",
+                    "Der Druck während der Diastole",
+                    "Der Pulsdruck",
+                    "Der Venendruck"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "Wie lautet die Einheit des Blutdrucks?",
+
+                options: [
+                    "bpm",
+                    "°C",
+                    "mmHg",
+                    "mL"
+                ],
+
+                correct: 2
+            },
+
+            {
+                question: "Was beschreibt die Windkesselfunktion?",
+
+                options: [
+                    "Die Blutgerinnung",
+                    "Die elastische Funktion der Aorta und großen Arterien",
+                    "Die Herzklappenfunktion",
+                    "Die Sauerstoffaufnahme"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "Was ist die Blutdruckamplitude?",
+
+                options: [
+                    "Summe von systolischem und diastolischem Wert",
+                    "Differenz zwischen systolischem und diastolischem Wert",
+                    "Durchschnittlicher Puls",
+                    "Venöser Blutdruck"
+                ],
+
+                correct: 1
+            },
+
+            {
+                question: "An welchem Arm sollte man bei der Blutdruckmessung besonders aufpassen bzw. diesen möglichst vermeiden?",
+
+                options: [
+                    "Arm mit laufender Infusion bzw. i.v.-Zugang",
+                    "Arm mit Dialyse-Shunt",
+                    "Betroffene Seite bei Lymphödem bzw. nach Mammaoperation",
+                    "Alle genannten Situationen"
+                ],
+
+                correct: 3
+            }
+
+        ]
+
+    }
+
+};
+
+
+/* =========================================================
+   PROGRAMM
+========================================================= */
+
+let currentTopic = null;
+
+let currentFlashcards = [];
+let flashIndex = 0;
+
+let currentQuiz = [];
+let quizIndex = 0;
+let score = 0;
+
+
+/* ==================== SEITEN ==================== */
+
+function hideAll() {
+
+    document.getElementById("home").classList.add("hidden");
+
+    document.getElementById("topicMenu").classList.add("hidden");
+
+    document.getElementById("learnPage").classList.add("hidden");
+
+    document.getElementById("flashcardPage").classList.add("hidden");
+
+    document.getElementById("quizPage").classList.add("hidden");
+
+    document.getElementById("comingSoon").classList.add("hidden");
+}
+
+
+function goHome() {
+
+    hideAll();
+
+    document.getElementById("home").classList.remove("hidden");
+}
+
+
+function openTopic(topic) {
+
+    currentTopic = topic;
+
+    hideAll();
+
+    document.getElementById("topicMenu").classList.remove("hidden");
+
+    document.getElementById("topicTitle").innerText =
+        topics[topic].title;
+}
+
+
+function backToTopic() {
+
+    hideAll();
+
+    document.getElementById("topicMenu").classList.remove("hidden");
+}
+
+
+/* ==================== LERNEN ==================== */
+
+function showLearn() {
+
+    hideAll();
+
+    document.getElementById("learnPage").classList.remove("hidden");
+
+    document.getElementById("learnTitle").innerText =
+        topics[currentTopic].title + " – Lernen";
+
+    let html = "";
+
+    topics[currentTopic].learn.forEach(item => {
+
+        html += `
+            <div class="learn-item">
+
+                <h3>${item.title}</h3>
+
+                ${item.text}
+
+            </div>
+        `;
+
+    });
+
+    document.getElementById("learnContent").innerHTML = html;
+}
+
+
+/* ==================== LERNKARTEN ==================== */
+
+function showFlashcards() {
+
+    currentFlashcards = topics[currentTopic].learn;
+
+    flashIndex = 0;
+
+    hideAll();
+
+    document.getElementById("flashcardPage").classList.remove("hidden");
+
+    loadFlashcard();
+}
+
+
+function loadFlashcard() {
+
+    let card = currentFlashcards[flashIndex];
+
+    document.getElementById("flashQuestion").innerText =
+        card.title;
+
+    document.getElementById("flashAnswer").innerHTML =
+        card.text;
+
+    document.getElementById("flashAnswer")
+        .classList.add("hidden");
+}
+
+
+function showFlashAnswer() {
+
+    document.getElementById("flashAnswer")
+        .classList.remove("hidden");
+}
+
+
+function nextFlashcard() {
+
+    flashIndex++;
+
+    if (flashIndex >= currentFlashcards.length) {
+
+        flashIndex = 0;
+    }
+
+    loadFlashcard();
+}
+
+
+/* ==================== QUIZ ==================== */
+
+function startQuiz() {
+
+    currentQuiz = [...topics[currentTopic].quiz];
+
+    if (currentQuiz.length === 0) {
+
+        alert(
+            "Für dieses Thema sind noch keine Übungsfragen vorhanden."
+        );
+
+        return;
+    }
+
+    quizIndex = 0;
+
+    score = 0;
+
+    hideAll();
+
+    document.getElementById("quizPage").classList.remove("hidden");
+
+    loadQuestion();
+}
+
+
+function loadQuestion() {
+
+    let q = currentQuiz[quizIndex];
+
+    document.getElementById("quizProgress").innerText =
+        "Frage " +
+        (quizIndex + 1) +
+        " von " +
+        currentQuiz.length;
+
+    document.getElementById("quizQuestion").innerText =
+        q.question;
+
+    document.getElementById("quizFeedback").innerHTML = "";
+
+    document.getElementById("nextQuestionButton")
+        .classList.add("hidden");
+
+    let optionsHTML = "";
+
+    q.options.forEach((option, index) => {
+
+        optionsHTML += `
+            <button
+                class="option"
+                onclick="checkAnswer(${index})">
+
+                ${option}
+
+            </button>
+        `;
+
+    });
+
+    document.getElementById("quizOptions").innerHTML =
+        optionsHTML;
+}
+
+
+function checkAnswer(selected) {
+
+    let q = currentQuiz[quizIndex];
+
+    let buttons =
+        document.querySelectorAll(".option");
+
+    buttons.forEach(button => {
+
+        button.disabled = true;
+
+    });
+
+
+    if (selected === q.correct) {
+
+        buttons[selected].classList.add("correct");
+
+        document.getElementById("quizFeedback").innerHTML =
+            `
+            <p style="color:green; font-weight:bold;">
+                ✅ Richtig!
+            </p>
+            `;
+
+        score++;
+
+    } else {
+
+        buttons[selected].classList.add("wrong");
+
+        buttons[q.correct].classList.add("correct");
+
+        document.getElementById("quizFeedback").innerHTML =
+            `
+            <p style="color:red; font-weight:bold;">
+                ❌ Nicht richtig.
+            </p>
+
+            <p>
+                Die richtige Antwort ist grün markiert.
+            </p>
+            `;
+    }
+
+
+    document.getElementById("nextQuestionButton")
+        .classList.remove("hidden");
+}
+
+
+function nextQuestion() {
+
+    quizIndex++;
+
+    if (quizIndex >= currentQuiz.length) {
+
+        document.getElementById("quizQuestion").innerText =
+            "🎉 Training beendet!";
+
+        document.getElementById("quizOptions").innerHTML = "";
+
+        document.getElementById("quizFeedback").innerHTML =
+            `
+            <h3>Ergebnis</h3>
+
+            <p>
+                Du hast
+                <b>${score}</b>
+                von
+                <b>${currentQuiz.length}</b>
+                Fragen richtig.
+            </p>
+            `;
+
+        document.getElementById("nextQuestionButton")
+            .classList.add("hidden");
+
+        return;
+    }
+
+    loadQuestion();
+}
+
+
+/* ==================== COMING SOON ==================== */
+
+function showComingSoon() {
+
+    hideAll();
+
+    document.getElementById("comingSoon")
+        .classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
