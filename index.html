@@ -1,0 +1,1954 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<title>Pflege Trainer</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+header{
+  background:#123b63;
+  color:white;
+  padding:22px;
+  text-align:center;
+}
+
+header h1{
+  margin:0 0 8px;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+.card,
+button{
+  border:0;
+  border-radius:14px;
+  padding:18px;
+  background:white;
+  box-shadow:0 3px 12px #0001;
+  cursor:pointer;
+}
+
+.card{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.card small{
+  display:block;
+  font-size:13px;
+  font-weight:normal;
+  margin-top:8px;
+  color:#667085;
+}
+
+.hidden{
+  display:none;
+}
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:14px 0;
+}
+
+button{
+  background:#1769aa;
+  color:white;
+  font-weight:bold;
+  padding:12px 16px;
+}
+
+button.secondary{
+  background:#64748b;
+}
+
+.panel{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 3px 12px #0001;
+}
+
+.option{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:#eef4fa;
+  color:#172033;
+  margin:8px 0;
+}
+
+.option:hover{
+  background:#dbeafe;
+}
+
+.muted{
+  color:#667085;
+}
+
+.tag{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 10px;
+  background:#e8eef7;
+  margin:3px;
+  font-size:12px;
+}
+
+.flash{
+  font-size:24px;
+  text-align:center;
+  min-height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.result{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.learning-card{
+  border-bottom:1px solid #e5e7eb;
+  padding-bottom:18px;
+  margin-bottom:18px;
+}
+
+.learning-card:last-child{
+  border-bottom:0;
+}
+
+.german{
+  font-size:17px;
+  line-height:1.6;
+}
+
+.persian{
+  direction:rtl;
+  text-align:right;
+  font-size:16px;
+  line-height:1.9;
+}
+
+.info{
+  background:#eff6ff;
+  border-left:5px solid #2563eb;
+  padding:14px;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+.warning{
+  background:#fff7ed;
+  border-left:5px solid #f97316;
+  padding:14px;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+.success{
+  background:#ecfdf3;
+  border-left:5px solid #16a34a;
+  padding:14px;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+.flow{
+  background:#eef6ff;
+  border-radius:12px;
+  padding:15px;
+  margin:10px 0;
+  font-weight:bold;
+  line-height:1.8;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🩺 Pflege Trainer</h1>
+
+<div>
+Ausbildung Pflegefachmann · Deutsch + فارسی
+</div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================
+     STARTSEITE
+========================= -->
+
+<section id="home">
+
+<h2>Wähle ein Thema</h2>
+
+<div id="topics"
+     class="grid">
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     THEMENBEREICH
+========================= -->
+
+<section id="menu"
+         class="hidden">
+
+<button class="secondary"
+        onclick="goHome()">
+
+← Startseite
+
+</button>
+
+
+<h2 id="topicTitle"></h2>
+
+
+<div class="toolbar">
+
+<button onclick="learn()">
+📖 Lernen
+</button>
+
+<button onclick="flashcards()">
+📚 Lernkarten
+</button>
+
+<button onclick="quiz(false)">
+🧠 Üben
+</button>
+
+<button onclick="quiz(true)">
+🎯 Prüfung
+</button>
+
+</div>
+
+
+<div id="content"></div>
+
+</section>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =========================================================
+   THEMEN
+========================================================= */
+
+const topics={
+
+
+/* =========================================================
+   PULS
+========================================================= */
+
+puls:{
+
+title:'💓 Puls',
+
+cards:[
+
+[
+'Was beurteilt man beim Puls?',
+'Frequenz, Rhythmus und Qualität.',
+'فرکانس، ریتم و کیفیت نبض.'
+],
+
+[
+'Wo misst man den Puls häufig?',
+'An der A. radialis; alternativ z. B. A. carotis oder A. femoralis.',
+'معمولاً روی شریان رادیال در مچ دست.'
+],
+
+[
+'Wie zählt man einen regelmäßigen Puls?',
+'15 Sekunden zählen und mit 4 multiplizieren.',
+'۱۵ ثانیه بشمار و در ۴ ضرب کن.'
+],
+
+[
+'Wie zählt man einen unregelmäßigen Puls?',
+'Eine volle Minute zählen.',
+'در ریتم نامنظم، یک دقیقه کامل بشمار.'
+],
+
+[
+'Was bedeutet Bradykardie?',
+'Beim Erwachsenen meist unter 60 Schläge/min.',
+'معمولاً کمتر از ۶۰ ضربه در دقیقه.'
+],
+
+[
+'Was bedeutet Tachykardie?',
+'Beim Erwachsenen meist über 100 Schläge/min.',
+'معمولاً بیشتر از ۱۰۰ ضربه در دقیقه.'
+],
+
+[
+'Was kann eine Tachykardie auslösen?',
+'Zum Beispiel Belastung, Schmerz, Angst oder Fieber.',
+'فعالیت، درد، ترس یا تب می‌توانند باعث افزایش نبض شوند.'
+],
+
+[
+'Was soll man bei einem auffälligen Puls zusätzlich kontrollieren?',
+'Blutdruck, Atmung, Temperatur und ggf. SpO₂.',
+'در نبض غیرطبیعی باید فشار خون، تنفس، دما و در صورت نیاز SpO₂ را بررسی کرد.'
+],
+
+[
+'Welche Aussage zur Pulsbeurteilung ist richtig?',
+'Frequenz, Rhythmus und Qualität werden beurteilt.',
+'فرکانس، ریتم و کیفیت نبض بررسی می‌شوند.'
+]
+
+],
+
+questions:[
+
+[
+'Welche drei Kriterien gehören zur Pulsbeurteilung?',
+[
+'Frequenz, Rhythmus, Qualität',
+'Nur Blutdruck und Temperatur',
+'Nur die Hautfarbe'
+],
+0
+],
+
+[
+'Bei regelmäßigem Puls zählt man 15 Sekunden. Was macht man danach?',
+[
+'Durch 2 teilen',
+'Mit 4 multiplizieren',
+'Mit 10 dividieren'
+],
+1
+],
+
+[
+'Bei unregelmäßigem Puls misst man wie lange?',
+[
+'5 Sekunden',
+'15 Sekunden',
+'60 Sekunden'
+],
+2
+],
+
+[
+'Welche Frequenz spricht beim Erwachsenen typischerweise für Bradykardie?',
+[
+'Unter 60/min',
+'Über 100/min',
+'Über 180/min'
+],
+0
+]
+
+]
+
+},
+
+
+
+/* =========================================================
+   BLUTDRUCK
+========================================================= */
+
+blutdruck:{
+
+title:'🩸 Blutdruck',
+
+cards:[
+
+[
+'Was bedeutet systolischer Blutdruck?',
+'Druck in den großen Arterien während der Systole bzw. Auswurfphase.',
+'فشار در شریان‌های بزرگ هنگام انقباض و خروج خون از قلب.'
+],
+
+[
+'Was bedeutet diastolischer Blutdruck?',
+'Druck in den großen Arterien während der Diastole bzw. Erschlaffungsphase.',
+'فشار هنگام استراحت قلب.'
+],
+
+[
+'Welche Einheit verwendet man?',
+'mmHg = Millimeter Quecksilbersäule.',
+'واحد میلی‌متر جیوه.'
+],
+
+[
+'Was ist die Windkesselfunktion?',
+'Aorta und große Arterien speichern während der Systole elastische Energie und verhindern einen starken Druckabfall in der Diastole.',
+'آئورت و شریان‌های بزرگ کمک می‌کنند فشار در زمان دیاستول بیش از حد پایین نیاید.'
+],
+
+[
+'Wie misst man den Blutdruck indirekt?',
+'Auskultatorisch, palpatorisch oder oszillatorisch mit Manschette.',
+'با گوشی، لمس نبض یا دستگاه دیجیتال.'
+],
+
+[
+'Was ist bei der Manschette wichtig?',
+'Manschette auf Herzhöhe; passende Größe verwenden.',
+'کاف در ارتفاع قلب و با اندازه مناسب باشد.'
+],
+
+[
+'An welchem Arm sollte man nicht messen?',
+'Nie an einem Arm mit Dialyse-Shunt.',
+'روی دستی که شانت دیالیز دارد نباید فشار خون اندازه‌گیری شود.'
+],
+
+[
+'Was tun bei einem auffälligen Wert nach Aufregung oder Anstrengung?',
+'Patient entspannen lassen und nach einigen Minuten erneut messen.',
+'بیمار را آرام کن و پس از چند دقیقه دوباره اندازه بگیر.'
+],
+
+[
+'Wann sollte man eine Auffälligkeit weitergeben?',
+'Bei unerwarteten Änderungen, stark erhöhten Werten, Symptomen oder mehreren auffälligen Vitalparametern.',
+'در تغییرات غیرمنتظره، فشار خیلی بالا، علائم همراه یا چند علامت حیاتی غیرطبیعی باید گزارش شود.'
+]
+
+],
+
+questions:[
+
+[
+'Welche Aussage zur Blutdruckmanschette ist richtig?',
+[
+'Immer unter Herzhöhe',
+'In Herzhöhe und passende Größe',
+'Nur am Bein verwenden'
+],
+1
+],
+
+[
+'Wo darf man nicht routinemäßig den Blutdruck messen?',
+[
+'Am Arm mit Dialyse-Shunt',
+'Am gesunden Arm',
+'An beiden Armen bei Erstkontrolle'
+],
+0
+],
+
+[
+'Was bedeutet mmHg?',
+[
+'Millimeter Herzfrequenz',
+'Millimeter Quecksilbersäule',
+'Messmethode Herzgeräusch'
+],
+1
+],
+
+[
+'Was ist bei einem auffälligen Wert nach Stress sinnvoll?',
+[
+'Sofort ignorieren',
+'Patient entspannen lassen und nachmessen',
+'Manschette entfernen und nicht dokumentieren'
+],
+1
+]
+
+]
+
+},
+
+
+
+/* =========================================================
+   VITALZEICHEN
+========================================================= */
+
+vital:{
+
+title:'🌡️ Vitalzeichen',
+
+cards:[
+
+[
+'Welche Vitalzeichen sind besonders wichtig?',
+'Puls, Blutdruck, Atmung, Temperatur und je nach Situation Sauerstoffsättigung.',
+'نبض، فشار خون، تنفس، دما و در صورت نیاز اشباع اکسیژن.'
+],
+
+[
+'Was ist bei auffälligen Werten wichtig?',
+'Patientenzustand einschätzen, Messung ggf. kontrollieren, dokumentieren und weiterleiten.',
+'وضعیت بیمار را ارزیابی، در صورت نیاز اندازه‌گیری را تکرار و گزارش کن.'
+]
+
+],
+
+questions:[
+
+[
+'Was ist bei einem auffälligen Vitalwert sinnvoll?',
+[
+'Ignorieren',
+'Patientenzustand prüfen und weiter handeln',
+'Nur den Wert löschen'
+],
+1
+]
+
+]
+
+},
+
+
+
+/* =========================================================
+   HERZ & KREISLAUF
+========================================================= */
+
+herz:{
+
+title:'❤️ Herz & Kreislauf',
+
+cards:[
+
+[
+'Was bedeutet Anatomie?',
+'Anatomie ist die Lehre vom Bau des menschlichen Körpers.',
+'آناتومی یعنی علم ساختمان بدن انسان.'
+],
+
+[
+'Was bedeutet Physiologie?',
+'Physiologie ist die Lehre von den normalen Funktionen des Körpers.',
+'فیزیولوژی یعنی علم عملکرد طبیعی بدن.'
+],
+
+[
+'Wie wird das Herz auf Latein genannt?',
+'Cor. Der griechische Begriff ist Kardia.',
+'نام لاتین قلب Cor و واژه یونانی Kardia است.'
+],
+
+[
+'Wo liegt das Herz?',
+'Das Herz liegt im Mediastinum zwischen den Lungen, hinter dem Sternum und oberhalb des Diaphragmas.',
+'قلب در مدیاستن، بین ریه‌ها، پشت جناغ و بالای دیافراگم قرار دارد.'
+],
+
+[
+'Welche großen Gefäßarten gibt es?',
+'Arterien, Venen und Kapillaren.',
+'شریان‌ها، وریدها و مویرگ‌ها.'
+],
+
+[
+'Wie heißt der rechte Vorhof auf Latein?',
+'Atrium dextrum.',
+'دهلیز راست = Atrium dextrum.'
+],
+
+[
+'Wie heißt der linke Vorhof auf Latein?',
+'Atrium sinistrum.',
+'دهلیز چپ = Atrium sinistrum.'
+],
+
+[
+'Wie heißt die rechte Herzkammer auf Latein?',
+'Ventriculus dexter.',
+'بطن راست = Ventriculus dexter.'
+],
+
+[
+'Wie heißt die linke Herzkammer auf Latein?',
+'Ventriculus sinister.',
+'بطن چپ = Ventriculus sinister.'
+],
+
+[
+'Welche vier Herzklappen gibt es?',
+'Trikuspidalklappe, Pulmonalklappe, Mitralklappe und Aortenklappe.',
+'چهار دریچه قلب: تریکوسپید، ریوی، میترال و آئورت.'
+],
+
+[
+'Wie heißt die Trikuspidalklappe auf Latein?',
+'Valva tricuspidalis.',
+'دریچه سه‌لتی = Valva tricuspidalis.'
+],
+
+[
+'Wie heißt die Mitralklappe auf Latein?',
+'Valva mitralis.',
+'دریچه میترال = Valva mitralis.'
+],
+
+[
+'Wie heißt die Pulmonalklappe auf Latein?',
+'Valva pulmonalis.',
+'دریچه ریوی = Valva pulmonalis.'
+],
+
+[
+'Wie heißt die Aortenklappe auf Latein?',
+'Valva aortae.',
+'دریچه آئورت = Valva aortae.'
+],
+
+[
+'Welche Klappen sind Segelklappen?',
+'Trikuspidalklappe und Mitralklappe.',
+'دریچه تریکوسپید و میترال، دریچه‌های لَتی هستند.'
+],
+
+[
+'Welche Klappen sind Taschenklappen?',
+'Pulmonalklappe und Aortenklappe.',
+'دریچه ریوی و آئورت، دریچه‌های جیبی هستند.'
+],
+
+[
+'Welche Aufgabe haben die Herzklappen?',
+'Sie sorgen dafür, dass das Blut in die richtige Richtung fließt und verhindern einen Rückstrom.',
+'دریچه‌ها باعث می‌شوند خون در جهت درست حرکت کند و به عقب برنگردد.'
+],
+
+[
+'Welche Schichten hat die Herzwand?',
+'Endokard, Myokard und Epikard.',
+'لایه‌های دیواره قلب: اندوکارد، میوکارد و اپیکارد.'
+],
+
+[
+'Was ist das Endokard?',
+'Die innere Auskleidung des Herzens.',
+'لایه داخلی قلب.'
+],
+
+[
+'Was ist das Myokard?',
+'Die Muskelschicht des Herzens.',
+'لایه عضلانی قلب.'
+],
+
+[
+'Was ist das Epikard?',
+'Die äußere Schicht der Herzwand.',
+'لایه خارجی دیواره قلب.'
+],
+
+[
+'Was ist das Perikard?',
+'Der Herzbeutel, der das Herz umgibt.',
+'پریکارد یا کیسه قلب که قلب را دربر می‌گیرد.'
+],
+
+[
+'Was ist der Körperkreislauf?',
+'Linke Herzhälfte → Körper → rechte Herzhälfte.',
+'گردش بزرگ: قلب چپ → بدن → قلب راست.'
+],
+
+[
+'Was ist der Lungenkreislauf?',
+'Rechte Herzhälfte → Lunge → linke Herzhälfte.',
+'گردش کوچک: قلب راست → ریه → قلب چپ.'
+],
+
+[
+'Was ist die Systole?',
+'Die Systole ist die Anspannungs- und Auswurfphase der Herzkammern.',
+'سیستول مرحله انقباض و پمپاژ خون از بطن‌هاست.'
+],
+
+[
+'Was ist die Diastole?',
+'Die Diastole ist die Entspannungs- und Füllungsphase der Herzkammern.',
+'دیاستول مرحله استراحت و پر شدن بطن‌هاست.'
+],
+
+[
+'Was ist das Reizleitungssystem?',
+'Es erzeugt und leitet elektrische Erregungen weiter, die die koordinierte Herzaktivität ermöglichen.',
+'سیستم هدایت تحریک الکتریکی، ضربان هماهنگ قلب را ایجاد و منتقل می‌کند.'
+],
+
+[
+'Wo entsteht normalerweise der elektrische Impuls des Herzens?',
+'Im Sinusknoten.',
+'تحریک طبیعی قلب معمولاً در گره سینوسی ایجاد می‌شود.'
+],
+
+[
+'Welche Bestandteile gehören zum Reizleitungssystem?',
+'Sinusknoten, AV-Knoten, His-Bündel, Tawara-Schenkel und Purkinje-Fasern.',
+'گره سینوسی، گره AV، دسته هیس، شاخه‌های تاوارا و فیبرهای پورکینژه.'
+],
+
+[
+'Was ist ein EKG?',
+'Eine Aufzeichnung der elektrischen Aktivität des Herzens.',
+'نوار قلب ثبت فعالیت الکتریکی قلب است.'
+],
+
+[
+'Wofür steht die P-Welle?',
+'Für die Erregung der Vorhöfe.',
+'موج P نشان‌دهنده تحریک دهلیزهاست.'
+],
+
+[
+'Wofür steht der QRS-Komplex?',
+'Für die Erregung der Herzkammern.',
+'کمپلکس QRS نشان‌دهنده تحریک بطن‌هاست.'
+],
+
+[
+'Wofür steht die T-Welle?',
+'Für die Repolarisation der Herzkammern.',
+'موج T نشان‌دهنده بازگشت الکتریکی بطن‌هاست.'
+],
+
+[
+'Was ist die Aufgabe der Arterien?',
+'Sie führen Blut vom Herzen weg.',
+'شریان‌ها خون را از قلب دور می‌کنند.'
+],
+
+[
+'Was ist die Aufgabe der Venen?',
+'Sie führen Blut zum Herzen zurück.',
+'وریدها خون را به قلب برمی‌گردانند.'
+],
+
+[
+'Was ist die Aufgabe der Kapillaren?',
+'Stoff- und Gasaustausch zwischen Blut und Gewebe.',
+'محل تبادل مواد و گازها بین خون و بافت.'
+],
+
+[
+'Was bedeutet Windkesselfunktion?',
+'Aorta und große elastische Arterien speichern während der Systole elastische Energie und unterstützen den Blutfluss während der Diastole.',
+'آئورت و شریان‌های بزرگ در سیستول انرژی الاستیک ذخیره کرده و در دیاستول به ادامه جریان خون کمک می‌کنند.'
+],
+
+[
+'Was sind Herzkranzgefäße?',
+'Koronararterien, die den Herzmuskel mit Blut und Sauerstoff versorgen.',
+'عروق کرونر، رگ‌هایی هستند که عضله قلب را با خون و اکسیژن تغذیه می‌کنند.'
+],
+
+[
+'Was ist KHK?',
+'Koronare Herzkrankheit: Erkrankung bzw. Verengung der Herzkranzgefäße.',
+'بیماری عروق کرونر؛ بیماری یا تنگی عروق تغذیه‌کننده قلب.'
+],
+
+[
+'Was ist ein Herzinfarkt?',
+'Ein Verschluss eines Koronargefäßes mit Schädigung von Herzmuskelgewebe.',
+'انسداد یک رگ کرونر که باعث آسیب عضله قلب می‌شود.'
+],
+
+[
+'Was ist Herzinsuffizienz?',
+'Eine eingeschränkte Pumpfunktion des Herzens.',
+'کاهش توان پمپاژ قلب.'
+],
+
+[
+'Welche Zeichen können bei Herzinsuffizienz auftreten?',
+'Zum Beispiel Dyspnoe, Ödeme, Gewichtszunahme oder Zyanose.',
+'مثلاً تنگی نفس، ورم، افزایش وزن یا کبودی.'
+],
+
+[
+'Was ist Myokarditis?',
+'Eine Entzündung des Herzmuskels.',
+'التهاب عضله قلب.'
+],
+
+[
+'Was ist Endokarditis?',
+'Eine Entzündung der Herzinnenhaut.',
+'التهاب لایه داخلی قلب.'
+],
+
+[
+'Was ist Perikarditis?',
+'Eine Entzündung des Herzbeutels.',
+'التهاب کیسه قلب.'
+],
+
+[
+'Was sind Herzrhythmusstörungen?',
+'Störungen der Herzfrequenz oder des Herzrhythmus durch Probleme der Reizbildung oder Reizleitung.',
+'اختلال در تعداد یا نظم ضربان قلب به علت مشکل در ایجاد یا انتقال تحریک.'
+],
+
+[
+'Welche Symptome können bei Herzerkrankungen auftreten?',
+'Auffällige Vitalwerte, Dyspnoe, Ödeme, Zyanose, Thoraxschmerzen, Synkopen, Schwindel oder Palpitationen.',
+'علائم می‌توانند شامل علائم حیاتی غیرطبیعی، تنگی نفس، ورم، کبودی، درد قفسه سینه، سنکوپ، سرگیجه یا تپش قلب باشند.'
+],
+
+[
+'Was ist bei der Mobilisation eines Herzpatienten wichtig?',
+'Belastungsgrenze beachten. Bei Dyspnoe, Schmerzen oder Unwohlsein die Belastung abbrechen und den Patienten beobachten.',
+'حد تحمل بیمار را رعایت کن. در تنگی نفس، درد یا ناراحتی فعالیت را متوقف کن.'
+],
+
+[
+'Was ist bei Verdacht auf Herzinfarkt wichtig?',
+'Patient nicht allein lassen, Hilfe holen, Vitalparameter und SpO₂ kontrollieren und weitere Notfallmaßnahmen nach Standard durchführen.',
+'بیمار را تنها نگذار، کمک بخواه و علائم حیاتی و SpO₂ را بررسی کن.'
+]
+
+],
+
+questions:[
+
+[
+'Wie heißt der rechte Vorhof auf Latein?',
+[
+'Atrium sinistrum',
+'Atrium dextrum',
+'Ventriculus dexter'
+],
+1
+],
+
+[
+'Wie heißt die linke Herzkammer auf Latein?',
+[
+'Ventriculus dexter',
+'Atrium sinistrum',
+'Ventriculus sinister'
+],
+2
+],
+
+[
+'Welche Klappe liegt zwischen rechtem Vorhof und rechter Herzkammer?',
+[
+'Mitralklappe',
+'Trikuspidalklappe',
+'Aortenklappe'
+],
+1
+],
+
+[
+'Welche Klappe liegt zwischen linkem Vorhof und linker Herzkammer?',
+[
+'Trikuspidalklappe',
+'Pulmonalklappe',
+'Mitralklappe'
+],
+2
+],
+
+[
+'Welche Klappen sind Segelklappen?',
+[
+'Trikuspidal- und Mitralklappe',
+'Aorten- und Pulmonalklappe',
+'Nur die Aortenklappe'
+],
+0
+],
+
+[
+'Welche Klappen sind Taschenklappen?',
+[
+'Trikuspidal- und Mitralklappe',
+'Pulmonal- und Aortenklappe',
+'Nur die Mitralklappe'
+],
+1
+],
+
+[
+'Welche Schicht ist die Muskelschicht des Herzens?',
+[
+'Endokard',
+'Myokard',
+'Perikard'
+],
+1
+],
+
+[
+'Welche Herzhälfte pumpt sauerstoffarmes Blut zur Lunge?',
+[
+'Die rechte',
+'Die linke',
+'Beide'
+],
+0
+],
+
+[
+'Was ist die Systole?',
+[
+'Entspannungs- und Füllungsphase',
+'Anspannungs- und Auswurfphase',
+'Stillstand des Herzens'
+],
+1
+],
+
+[
+'Was ist die Diastole?',
+[
+'Entspannungs- und Füllungsphase',
+'Auswurfphase',
+'Herzstillstand'
+],
+0
+],
+
+[
+'Wo entsteht normalerweise der elektrische Impuls des Herzens?',
+[
+'Im Sinusknoten',
+'In der Aorta',
+'In der Mitralklappe'
+],
+0
+],
+
+[
+'Welche Struktur folgt im Reizleitungssystem auf den Sinusknoten?',
+[
+'AV-Knoten',
+'Aorta',
+'Pulmonalklappe'
+],
+0
+],
+
+[
+'Wofür steht die P-Welle im EKG?',
+[
+'Erregung der Vorhöfe',
+'Erregung der Herzkammern',
+'Repolarisation der Herzkammern'
+],
+0
+],
+
+[
+'Wofür steht der QRS-Komplex?',
+[
+'Erregung der Vorhöfe',
+'Erregung der Herzkammern',
+'Repolarisation der Vorhöfe'
+],
+1
+],
+
+[
+'Wofür steht die T-Welle?',
+[
+'Erregung der Vorhöfe',
+'Erregung der Herzkammern',
+'Repolarisation der Herzkammern'
+],
+2
+],
+
+[
+'Was bedeutet KHK?',
+[
+'Koronare Herzkrankheit',
+'Kardiale Körper-Hypothermie',
+'Keine Herzklappen'
+],
+0
+],
+
+[
+'Was ist ein EKG?',
+[
+'Messung des Blutzuckers',
+'Aufzeichnung der elektrischen Herzaktivität',
+'Messung der Körpertemperatur'
+],
+1
+],
+
+[
+'Was kann ein Zeichen einer Herzinsuffizienz sein?',
+[
+'Ödeme und Dyspnoe',
+'Nur gesteigerter Appetit',
+'Immer niedrige Temperatur'
+],
+0
+],
+
+[
+'Was ist Myokarditis?',
+[
+'Entzündung des Herzmuskels',
+'Entzündung der Haut',
+'Entzündung der Lunge'
+],
+0
+],
+
+[
+'Was ist Endokarditis?',
+[
+'Entzündung des Herzbeutels',
+'Entzündung der Herzinnenhaut',
+'Entzündung der Niere'
+],
+1
+],
+
+[
+'Was ist Perikarditis?',
+[
+'Entzündung des Herzbeutels',
+'Entzündung der Herzklappe',
+'Entzündung des Magens'
+],
+0
+],
+
+[
+'Was ist bei Verdacht auf akuten Herzinfarkt wichtig?',
+[
+'Patient allein lassen',
+'Hilfe holen und Patient überwachen',
+'Erst am nächsten Tag kontrollieren'
+],
+1
+]
+
+]
+
+},
+
+
+
+/* =========================================================
+   INTERTRIGO
+========================================================= */
+
+intertrigo:{
+
+title:'🩹 Intertrigo',
+
+cards:[
+
+[
+'Was ist Intertrigo?',
+'Intertrigo ist eine entzündliche Hautveränderung, die vor allem in Hautfalten durch Feuchtigkeit, Wärme und Reibung entstehen kann.',
+'اینترتریگو التهاب و آسیب پوستی است که معمولاً در چین‌های پوستی به علت رطوبت، گرما و اصطکاک ایجاد می‌شود.'
+],
+
+[
+'Wo tritt Intertrigo häufig auf?',
+'Zum Beispiel unter der Brust, in der Leiste, zwischen Hautfalten, unter dem Bauch oder in der Achselhöhle.',
+'مثلاً زیر سینه، کشاله ران، بین چین‌های پوستی، زیر شکم یا زیر بغل.'
+],
+
+[
+'Welche Faktoren begünstigen Intertrigo?',
+'Feuchtigkeit, Wärme, Reibung, eingeschränkte Hautbelüftung und eine erschwerte Hautpflege.',
+'رطوبت، گرما، اصطکاک، تهویه کم پوست و دشواری در مراقبت از پوست.'
+],
+
+[
+'Warum ist Feuchtigkeit problematisch?',
+'Feuchte Haut kann aufweichen und dadurch empfindlicher gegenüber Reibung und Hautschäden werden.',
+'رطوبت باعث نرم و آسیب‌پذیر شدن پوست شده و احتمال آسیب ناشی از اصطکاک را بیشتر می‌کند.'
+],
+
+[
+'Welche Menschen haben ein erhöhtes Risiko?',
+'Zum Beispiel Menschen mit ausgeprägten Hautfalten, starkem Schwitzen, eingeschränkter Mobilität oder erhöhtem Pflegebedarf.',
+'افرادی با چین‌های پوستی زیاد، تعریق زیاد، تحرک محدود یا نیاز بیشتر به مراقبت، خطر بیشتری دارند.'
+],
+
+[
+'Wie kann Intertrigo aussehen?',
+'Die Haut kann gerötet, aufgeweicht, gereizt, wund oder schmerzhaft sein.',
+'پوست می‌تواند قرمز، مرطوب و نرم‌شده، تحریک‌شده، زخمی یا دردناک باشد.'
+],
+
+[
+'Was ist bei der Hautbeobachtung wichtig?',
+'Hautfarbe, Feuchtigkeit, Geruch, Schmerzen, Hautzustand und mögliche Veränderungen beobachten.',
+'رنگ پوست، رطوبت، بو، درد، وضعیت پوست و تغییرات احتمالی را بررسی کن.'
+],
+
+[
+'Warum müssen Hautfalten sorgfältig getrocknet werden?',
+'Um verbleibende Feuchtigkeit zu reduzieren und die Haut zu schützen.',
+'برای کاهش رطوبت باقی‌مانده و محافظت از پوست.'
+],
+
+[
+'Wie sollte man Hautfalten trocknen?',
+'Vorsichtig und gründlich trocken tupfen, ohne die Haut durch starkes Reiben zusätzlich zu reizen.',
+'با ملایمت و به‌طور کامل خشک کن؛ پوست را شدید مالش نده.'
+],
+
+[
+'Was ist ein wichtiges Ziel der Intertrigo-Prophylaxe?',
+'Hautfalten möglichst trocken, sauber und frei von unnötiger Reibung halten.',
+'هدف مهم پیشگیری این است که چین‌های پوستی تا حد امکان خشک، تمیز و بدون اصطکاک اضافی باشند.'
+],
+
+[
+'Was ist bei der Körperpflege bei Intertrigo wichtig?',
+'Hautfalten kontrollieren, vorsichtig reinigen, sorgfältig trocknen und Hautveränderungen beobachten.',
+'چین‌های پوستی را بررسی، با ملایمت تمیز و کاملاً خشک کن و تغییرات پوست را مشاهده کن.'
+],
+
+[
+'Was sollte man bei einer auffälligen Hautveränderung dokumentieren?',
+'Zum Beispiel Ort, Aussehen, Größe bzw. Ausdehnung, Schmerzen, Feuchtigkeit und Veränderungen im Verlauf.',
+'محل، ظاهر، اندازه یا گسترش، درد، رطوبت و تغییرات در طول زمان را ثبت کن.'
+],
+
+[
+'Wann sollte eine Hautveränderung weitergegeben werden?',
+'Bei deutlicher Verschlechterung, starken Schmerzen, offenen Stellen, auffälligem Geruch oder anderen ungewöhnlichen Veränderungen.',
+'در صورت بدتر شدن واضح، درد شدید، زخم باز، بوی غیرطبیعی یا تغییرات غیرعادی باید گزارش شود.'
+],
+
+[
+'Warum ist Reibung bei Intertrigo ungünstig?',
+'Reibung kann die bereits gereizte Haut zusätzlich schädigen.',
+'اصطکاک می‌تواند پوست از قبل تحریک‌شده را بیشتر آسیب بزند.'
+],
+
+[
+'Was sollte man bei der Pflege vermeiden?',
+'Starkes Reiben und unnötige Feuchtigkeit in Hautfalten.',
+'از مالش شدید و باقی گذاشتن رطوبت غیرضروری در چین‌های پوستی خودداری کن.'
+],
+
+[
+'Was ist bei der Intimpflege und Hautfaltenpflege besonders wichtig?',
+'Privatsphäre, Würde, Beobachtung der Haut und eine schonende Durchführung.',
+'حفظ حریم شخصی و کرامت بیمار، مشاهده پوست و انجام ملایم مراقبت اهمیت دارد.'
+]
+
+],
+
+questions:[
+
+[
+'Was ist Intertrigo?',
+[
+'Eine entzündliche Hautveränderung in Hautfalten',
+'Eine Knochenverletzung',
+'Eine Erkrankung des Herzens'
+],
+0
+],
+
+[
+'Wo tritt Intertrigo häufig auf?',
+[
+'Nur an den Händen',
+'In Hautfalten, z. B. unter der Brust oder in der Leiste',
+'Nur am Kopf'
+],
+1
+],
+
+[
+'Welche Faktoren begünstigen Intertrigo?',
+[
+'Feuchtigkeit, Wärme und Reibung',
+'Nur kalte Luft',
+'Nur Bewegung'
+],
+0
+],
+
+[
+'Warum ist Feuchtigkeit in Hautfalten problematisch?',
+[
+'Die Haut wird widerstandsfähiger',
+'Die Haut kann aufweichen und empfindlicher werden',
+'Die Haut wird immer dicker'
+],
+1
+],
+
+[
+'Was kann bei Intertrigo beobachtet werden?',
+[
+'Rötung und gereizte Haut',
+'Nur trockene Lippen',
+'Nur Haarausfall'
+],
+0
+],
+
+[
+'Welche Maßnahme ist bei der Pflege besonders wichtig?',
+[
+'Hautfalten gründlich und vorsichtig trocknen',
+'Hautfalten stark rubbeln',
+'Feuchtigkeit absichtlich in der Hautfalte lassen'
+],
+0
+],
+
+[
+'Wie sollte man gereizte Haut trocknen?',
+[
+'Stark reiben',
+'Vorsichtig trocken tupfen',
+'Gar nicht trocknen'
+],
+1
+],
+
+[
+'Was gehört zur Hautbeobachtung?',
+[
+'Hautfarbe, Feuchtigkeit, Geruch und Schmerzen',
+'Nur Körpergröße',
+'Nur Puls'
+],
+0
+],
+
+[
+'Was sollte bei einer deutlichen Verschlechterung gemacht werden?',
+[
+'Ignorieren',
+'Beobachten, dokumentieren und entsprechend weitergeben',
+'Die Veränderung verstecken'
+],
+1
+],
+
+[
+'Was sollte bei Intertrigo vermieden werden?',
+[
+'Starkes Reiben',
+'Schonende Reinigung',
+'Sorgfältiges Trocknen'
+],
+0
+],
+
+[
+'Was ist ein Ziel der Intertrigo-Prophylaxe?',
+[
+'Hautfalten möglichst trocken und geschützt halten',
+'Mehr Feuchtigkeit in Hautfalten erzeugen',
+'Die Haut absichtlich reizen'
+],
+0
+],
+
+[
+'Was kann bei der Dokumentation wichtig sein?',
+[
+'Ort und Aussehen der Hautveränderung',
+'Nur der Name des Patienten',
+'Nur die Uhrzeit des Mittagessens'
+],
+0
+]
+
+]
+
+}
+
+};
+
+
+
+/* =========================================================
+   VARIABLEN
+========================================================= */
+
+let current='';
+
+let index=0;
+
+let score=0;
+
+let exam=false;
+
+let answered=false;
+
+
+
+/* =========================================================
+   HILFSFUNKTION
+========================================================= */
+
+function $(id){
+
+  return document.getElementById(id);
+
+}
+
+
+
+/* =========================================================
+   STARTSEITE
+========================================================= */
+
+function init(){
+
+  $('topics').innerHTML=
+
+    Object.entries(topics)
+
+    .map(([key,t])=>`
+
+      <div
+        class="card"
+        onclick="openTopic('${key}')"
+      >
+
+        ${t.title}
+
+        <small>
+
+          ${t.cards.length}
+          Lernkarten ·
+
+          ${t.questions.length}
+          Fragen
+
+        </small>
+
+      </div>
+
+    `)
+
+    .join('');
+
+}
+
+
+
+/* =========================================================
+   THEMA ÖFFNEN
+========================================================= */
+
+function openTopic(key){
+
+  current=key;
+
+  $('home')
+    .classList
+    .add('hidden');
+
+  $('menu')
+    .classList
+    .remove('hidden');
+
+  $('topicTitle')
+    .textContent=
+    topics[key].title;
+
+  learn();
+
+}
+
+
+
+/* =========================================================
+   ZURÜCK
+========================================================= */
+
+function goHome(){
+
+  $('menu')
+    .classList
+    .add('hidden');
+
+  $('home')
+    .classList
+    .remove('hidden');
+
+  $('content')
+    .innerHTML='';
+
+}
+
+
+
+/* =========================================================
+   LERNEN
+========================================================= */
+
+function learn(){
+
+  let t=topics[current];
+
+  let html=`
+
+    <div class="panel">
+
+      <h3>📖 Lernübersicht</h3>
+
+      <p class="muted">
+
+        Deutsch lernen +
+        فارسی توضیح فارسی
+
+      </p>
+
+  `;
+
+
+  t.cards.forEach((c,i)=>{
+
+    html+=`
+
+      <article
+        class="learning-card"
+      >
+
+        <div class="tag">
+
+          Karte ${i+1}
+
+        </div>
+
+        <div class="tag">
+
+          Deutsch
+
+        </div>
+
+        <h3 class="german">
+
+          ${c[0]}
+
+        </h3>
+
+        <p class="german">
+
+          ${c[1]}
+
+        </p>
+
+        <div class="tag">
+
+          فارسی
+
+        </div>
+
+        <p class="persian">
+
+          ${c[2]}
+
+        </p>
+
+      </article>
+
+    `;
+
+  });
+
+
+  html+=`
+
+    </div>
+
+  `;
+
+
+  $('content')
+    .innerHTML=html;
+
+}
+
+
+
+/* =========================================================
+   LERNKARTEN
+========================================================= */
+
+function flashcards(){
+
+  index=0;
+
+  renderFlash();
+
+}
+
+
+function renderFlash(){
+
+  let c=
+    topics[current]
+    .cards[index];
+
+
+  $('content').innerHTML=`
+
+    <div class="panel">
+
+      <div class="muted">
+
+        Karte ${index+1}
+        von
+        ${topics[current].cards.length}
+
+      </div>
+
+
+      <div
+        id="flashText"
+        class="flash"
+      >
+
+        ${c[0]}
+
+      </div>
+
+
+      <div class="toolbar">
+
+        <button
+          onclick="showFlashAnswer()"
+        >
+
+          Antwort zeigen
+
+        </button>
+
+
+        <button
+          class="secondary"
+          onclick="nextFlash()"
+        >
+
+          Nächste →
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function showFlashAnswer(){
+
+  let c=
+    topics[current]
+    .cards[index];
+
+
+  $('flashText').innerHTML=`
+
+    <div>
+
+      <b>
+
+        ${c[1]}
+
+      </b>
+
+      <hr>
+
+      <span class="muted">
+
+        ${c[2]}
+
+      </span>
+
+    </div>
+
+  `;
+
+}
+
+
+function nextFlash(){
+
+  index=
+
+    (index+1)
+    %
+    topics[current]
+    .cards.length;
+
+  renderFlash();
+
+}
+
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+function quiz(isExam){
+
+  exam=isExam;
+
+  index=0;
+
+  score=0;
+
+  answered=false;
+
+  renderQuestion();
+
+}
+
+
+
+/* =========================================================
+   FRAGE ANZEIGEN
+========================================================= */
+
+function renderQuestion(){
+
+  let q=
+    topics[current]
+    .questions[index];
+
+
+  $('content').innerHTML=`
+
+    <div class="panel">
+
+      <div class="muted">
+
+        ${exam
+          ? '🎯 Prüfung'
+          : '🧠 Übung'
+        }
+
+        ·
+
+        Frage ${index+1}
+        von
+        ${topics[current]
+          .questions.length}
+
+      </div>
+
+
+      <h3>
+
+        ${q[0]}
+
+      </h3>
+
+
+      ${q[1]
+
+        .map((o,i)=>`
+
+          <button
+            class="option"
+            onclick="answer(${i})"
+          >
+
+            ${String
+              .fromCharCode(65+i)}.
+            ${o}
+
+          </button>
+
+        `)
+
+        .join('')
+
+      }
+
+
+      <div id="feedback"></div>
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================================
+   ANTWORT
+========================================================= */
+
+function answer(choice){
+
+  if(answered)
+    return;
+
+  answered=true;
+
+
+  let q=
+    topics[current]
+    .questions[index];
+
+
+  let ok=
+    choice===q[2];
+
+
+  if(ok)
+    score++;
+
+
+  $('feedback').innerHTML=`
+
+    <div
+      class="${ok
+        ? 'success'
+        : 'warning'}"
+    >
+
+      <p class="result">
+
+        ${ok
+          ? '✅ Richtig!'
+          : '❌ Noch nicht richtig.'
+        }
+
+      </p>
+
+
+      <p>
+
+        <b>
+          Richtige Antwort:
+        </b>
+
+        ${q[1][q[2]]}
+
+      </p>
+
+
+      <p>
+
+        ${ok
+
+          ? 'Sehr gut! 👍'
+
+          : 'Diese Antwort noch einmal lernen und später wiederholen.'
+
+        }
+
+      </p>
+
+
+      <button
+        onclick="nextQuestion()"
+      >
+
+        ${
+
+          index+1 ===
+          topics[current]
+          .questions.length
+
+          ? 'Ergebnis'
+
+          : 'Weiter →'
+
+        }
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================================
+   NÄCHSTE FRAGE
+========================================================= */
+
+function nextQuestion(){
+
+  if(
+
+    index+1 ===
+    topics[current]
+    .questions.length
+
+  ){
+
+    let total=
+      topics[current]
+      .questions.length;
+
+
+    let percentage=
+      Math.round(
+        (score/total)*100
+      );
+
+
+    $('content').innerHTML=`
+
+      <div class="panel">
+
+        <h3>
+
+          🎉 Ergebnis
+
+        </h3>
+
+
+        <p class="result">
+
+          ${score}
+          von
+          ${total}
+          richtig
+
+        </p>
+
+
+        <p>
+
+          Ergebnis:
+
+          <b>
+
+            ${percentage} %
+
+          </b>
+
+        </p>
+
+
+        <div class="toolbar">
+
+          <button
+            onclick="quiz(${exam})"
+          >
+
+            🔄 Nochmal
+
+          </button>
+
+
+          <button
+            class="secondary"
+            onclick="learn()"
+          >
+
+            📖 Lernübersicht
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  else{
+
+    index++;
+
+    answered=false;
+
+    renderQuestion();
+
+  }
+
+}
+
+
+
+/* =========================================================
+   PROGRAMM START
+========================================================= */
+
+init();
+
+</script>
+
+</body>
+
+</html>
